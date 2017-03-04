@@ -1,0 +1,42 @@
+{
+    "name": "webklex/laravel-git-hook",
+    "type": "library",
+    "description": "Laravel Git Hook",
+    "keywords": [
+        "webklex",
+        "laravel",
+        "git",
+        "git hook",
+        "hook",
+        "laravel-git-hook"
+    ],
+    "homepage": "https://github.com/webklex/laravel-git-hook",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Malte Goldenbaum",
+            "email": "github@webklex.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/http": "~5",
+        "illuminate/config": "~5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webklex\\GitHook\\": "src/GitHook"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
