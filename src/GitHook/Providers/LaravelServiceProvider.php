@@ -26,7 +26,7 @@ class LaravelServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/git-hook.php' => config_path('git-hook.php'),
         ]);
-        $this->loadViewsFrom(__DIR__.'/views', 'git-hook');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'git-hook');
 
         $source = realpath(__DIR__.'/../../config/git-hook.php');
         $this->mergeConfigFrom($source, 'git-hook');
