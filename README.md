@@ -40,58 +40,21 @@ Provider and edit the `config/git-hook.php` file to make it fit your needs.
 
 Custom configuration can be made within the `config/git-hook.php` file:
 
-Get notified by mail. Just add your credentials: 
-```
-'email_recipients' => [
-    [
-        ['name' => 'Admin', 'address' => 'email@example.com'],
-        ...
-    ]
-],
-```
- 
-Specify a custom email sender address:
-```
-'email_sender' => ['address' => null, 'name' => null],
-```
+| Parameter             | Default                             | Options                                                             | Description                                                                                               |
+| --------------------- | :---------------------------------: | :------------------------------------------------------------------:| --------------------------------------------------------------------------------------------------------: |
+| email_recipients      | []                                  | [ ['name' => 'Admin', 'address' => 'email@example.com'], ... ]      | Get notified by mail. Just add your credentials                                                           |
+| email_email_sender    | ['address' => null, 'name' => null] | ['address' => null, 'name' => null]                                 | Specify a custom email sender address                                                                     |
+| repo_path             | null                                | Leave empty to ato detect the vcs root                              | Perhaps your repository is somehow specially structured, if that's the case, specify your repository path |
+| allowed_sources       | []                                  | ['192.168.1.1', '192.168.1.2', ...]                                 | If you want to secure the deployment process a bit more, whitelist the remote repository IPs              |
+| remote                | origin                              |                                                                     | Your remote branch name                                                                                   |
+| git_path              | /usr/bin/git                        |                                                                     | Where is the git binary located                                                                           |
+| logfile               | git-hook                            |                                                                     | Name of the logfile. It will be stored under storage/logs                                                 |
+| service               | github                              | `github`, `gitbucket`                                               | Define your remote git service. This is required to identify the payload                                  |
+| url                   | git-hook                            |                                                                     | Define the deployment url. Keep in mind, that the given parameter will be added to your app.url           |
 
-Perhaps your repository is somehow specially structured, if that's the case, specify yozr
-repository path below:
-```
-'repo_path' => '',
-```
 
-If you want to secure the deployment process a bit more, whitelist the repository IPs:
-```
-'allowed_sources' => [],
-```
-
-Your remote branch
-```
-'remote' => 'origin',
-```
-
-Where is the git binary located? By default /usr/bin/git will be used.
-```
-'git_path' => '',
-```
-
-How sould the logfile be named?
-```
-'logfile' => 'git-hook',
-```
-
-Define your remote git service. This is required to identify the payload.
-Currently supported: `github`, `gitbucket`
-```
-'service' => 'github',
-```
-
-How should your deployment url (git hook) look like? You can be as creative as you want ;)
 If you are concerned someone could guess it, use a more cryptic url such as: `JHFUjhd67567JHFGhsd78236784wegfJHFghdgf`
-```
-'url' => 'git-hook'
-```
+
 
 ## Potential problems:
 
