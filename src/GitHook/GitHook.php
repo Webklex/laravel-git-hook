@@ -49,6 +49,12 @@ class GitHook {
     protected $currentBranch = null;
 
     /**
+     * This variable might be set and used later on. It holds the pushed branch name
+     * @var null
+     */
+    protected $pushedBranch = null;
+
+    /**
      * GitHook constructor.
      */
     public function __construct() {
@@ -119,7 +125,7 @@ class GitHook {
      *
      * @return string
      */
-    protected function getCurrentBranch(){
+    public function getCurrentBranch(){
         if($this->currentBranch == null){
             $this->currentBranch = trim(
                 shell_exec(
@@ -129,6 +135,15 @@ class GitHook {
         }
 
         return $this->currentBranch;
+    }
+
+    /**
+     * Get the pushed branch name
+     *
+     * @return string
+     */
+    public function getPushedBranch(){
+        return $this->pushedBranch;
     }
 
     /**
@@ -163,10 +178,10 @@ class GitHook {
      * @return bool
      */
     public function checkBranch(){
-        $pushed_branch = explode('/', $this->aRequest->get('ref'));
-        $pushed_branch = trim($pushed_branch[2]);
+        $pushedBranch = explode('/', $this->aRequest->get('ref'));
+        $this->pushedBranch = trim($pushedBranch[2]);
 
-        return $this->getCurrentBranch() == $pushed_branch;
+        return $this->getCurrentBranch() == $this->pushedBranch;
     }
 
     /**

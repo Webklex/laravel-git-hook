@@ -78,7 +78,8 @@ class GitHookController extends Controller {
         /* Check if the pushed branch is the one we one want to deploy
          * */
         if ($this->oGitHook->checkBranch() == false){
-            $this->oGitHook->getLogger()->addWarning('Pushed refs do not match current branch');
+            $this->oGitHook->getLogger()->addWarning('Pushed refs do not match current branch: ['.
+                $this->oGitHook->getCurrentBranch().' /=/ '.$this->oGitHook->getPushedBranch().']');
             return response()->json([
                 'success' => false,
                 'message' => 'Pushed refs do not match current branch',

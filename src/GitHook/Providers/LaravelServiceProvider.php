@@ -26,10 +26,9 @@ class LaravelServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/git-hook.php' => config_path('git-hook.php'),
         ]);
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'git-hook');
 
-        $source = realpath(__DIR__.'/../../config/git-hook.php');
-        $this->mergeConfigFrom($source, 'git-hook');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/git-hook.php'), 'git-hook');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'git-hook');
 
         require __DIR__.'/../Http/routes.php';
     }
@@ -42,7 +41,7 @@ class LaravelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('git-hook', function ($app) {
-            //return new GitHookApp;
+            return new GitHookApp;
         });
 
     }
