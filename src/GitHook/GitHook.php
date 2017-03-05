@@ -95,6 +95,42 @@ class GitHook {
     public function parseRequest($rawRequest){
         $this->aRequest = collect(json_decode($rawRequest, true));
 
+        /* Check if the Request comes from bitbucket
+         * An example payload can be found here: https://confluence.atlassian.com/bitbucket/event-payloads-740262817.html#EventPayloads-Push
+         * */
+        if($this->aRequest->has('push')){
+            $aPush = $this->aRequest->get('push');
+            $aRepository = $this->aRequest->get('repository');
+            $aCommit = [];
+
+            foreach($aPush['changes'] as $aChange){
+                foreach($aChange['commits'] as $commit){
+
+                    $this->aRequest->put('user_name', $commit['author']['user']['display_name']);
+                    $this->aRequest->put('before', $aChange['new']['target']['parents'][0]['hash']);
+                    $this->aRequest->put('after', $aChange['new']['target']['hash']);
+
+                    $commit['id'] = $commit['hash'];
+                    $commit['timestamp'] = $commit['date'];
+                    $commit['url'] = $commit['links']['html']['href'];
+                    $commit['author'] = [
+                        'name' => $commit['author']['user']['display_name'],
+                        'email' => '',
+                    ];
+
+                    $aCommit[] = $commit;
+                }
+                $this->aRequest->put('ref', 'ref/branch/'.$aChange['new']['name']);
+            }
+
+            $aRepository['description'] = '';
+            $aRepository['url'] = $aRepository['links']['html']['href'];
+            $aRepository['homepage'] = $aRepository['website'];
+
+            $this->aRequest->put('commits', $aCommit);
+            $this->aRequest->put('repository', $aRepository);
+        }
+
         if($this->aRequest->has('commits'))
             $this->aRequest->put('commits', collect($this->aRequest->get('commits')));
 
