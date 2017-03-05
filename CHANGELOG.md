@@ -5,6 +5,8 @@ All notable changes to `webklex/laravel-git-hook` will be documented in this fil
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 ## [UNRELEASED]
+### Changed
+- Maintenance mode example added to config
 
 ## [0.0.1.6] - 2017-03-05
 ### Changed
