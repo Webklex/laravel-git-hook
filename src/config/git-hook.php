@@ -98,7 +98,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Logger file name
+    | Logfile name
     |--------------------------------------------------------------------------
     |
     | The filename of the logfile which will be used to store deployment
@@ -110,6 +110,22 @@ return [
     |
     */
     'logfile' => 'git-hook',
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remote git service
+    |--------------------------------------------------------------------------
+    |
+    | Please select a service. This is required in order to parse the delivered
+    | payload.
+    |
+    | Available services:
+    | github       [default]
+    | bitbucket
+    |
+    */
+    'service' => 'github',
 
 
     /*
