@@ -51,6 +51,8 @@ Custom configuration can be made within the `config/git-hook.php` file:
 | logfile               | git-hook                            |                                                                     | Name of the logfile. It will be stored under storage/logs                                                 |
 | service               | github                              | `github`, `gitbucket`                                               | Define your remote git service. This is required to identify the payload                                  |
 | url                   | git-hook                            |                                                                     | Define the deployment url. Keep in mind, that the given parameter will be added to your app.url           |
+| before_pull           | []                                  | ['route:clear', ['some:command', ['arg1' => 1]]]                    | If you have any commands that have to be called before a pull event, specify them here                    |
+| after_pull            | []                                  | ['route:clear', ['some:command', ['arg1' => 1]]]                    | If you have any commands that have to be called after a pull event, specify them here                     |
 
 
 If you are concerned someone could guess it, use a more cryptic url such as: `JHFUjhd67567JHFGhsd78236784wegfJHFghdgf`

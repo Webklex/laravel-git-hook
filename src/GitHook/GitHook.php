@@ -13,6 +13,7 @@
 
 namespace Webklex\GitHook;
 
+use Illuminate\Support\Facades\Artisan;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Webklex\GitHook\Payload\Payload;
@@ -94,8 +95,6 @@ class GitHook {
      * @return bool
      */
     public function parseRequest($rawRequest){
-        $this->aRequest = collect(json_decode($rawRequest, true));
-
         $service = 'Webklex\GitHook\Payload\Services\\'.ucfirst($this->config['service']).'Service';
 
         /***
@@ -194,6 +193,25 @@ class GitHook {
     }
 
     /**
+     * Run an array of given commands
+     * @param array $commands
+     */
+    protected function runCommands(array $commands){
+        foreach($commands as $command){
+
+            $cmd  = $command;
+            $args = [];
+
+            if(is_array($command)){
+                $cmd  = $command[0];
+                $args = $command[1];
+            }
+
+            Artisan::call($cmd, $args);
+        }
+    }
+
+    /**
      * Perform the deployment task
      *
      * @return bool
@@ -208,10 +226,16 @@ class GitHook {
                escapeshellarg($this->getCurrentBranch()) . ' >> ' .
                escapeshellarg($this->config['repo_path'] . '/storage/logs/git-hook.log');
 
+        $this->runCommands($this->config['before_pull']);
+
+        $pullRequest = shell_exec($cmd);
+
+        $this->runCommands($this->config['after_pull']);
+
         return $this->notify([
             'cmd'   => $cmd,
             'user'  => shell_exec('whoami'),
-            'response' => shell_exec($cmd),
+            'response' => $pullRequest,
         ]);
     }
 

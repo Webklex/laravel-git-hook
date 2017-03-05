@@ -139,7 +139,35 @@ return [
     |          It will be transformed into: https://your-domain.tld/another-git-hook
     |
     */
-    'url' => 'git-hook'
+    'url' => 'git-hook',
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Before pull event
+    |--------------------------------------------------------------------------
+    |
+    | If you have any commands that have to be called before a pull event, specify
+    | them below.
+    |
+    | ['route:clear', ['some:command', ['arg1' => 1]]]
+    |
+    */
+    'before_pull' => [],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | After pull event
+    |--------------------------------------------------------------------------
+    |
+    | If you have any commands that have to be called after a pull event, specify
+    | them below.
+    |
+    | ['route:clear', ['some:command', ['arg1' => 1]]]
+    |
+    */
+    'after_pull' => []
 
 
 ];
