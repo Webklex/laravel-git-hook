@@ -31,12 +31,6 @@ You can publish everything at once
 php artisan vendor:publish --provider="Webklex\GitHook\Providers\LaravelServiceProvider"
 ```
 
-or you can publish groups individually.
-
-``` php
-php artisan vendor:publish --provider="Webklex\GitHook\Providers\LaravelServiceProvider" --tag="config"
-```
-
 ## Usage
 
 This library is designed to handle the automatic deployment by git hooks 
@@ -44,120 +38,66 @@ as simple as possible. There isn't much todo to get started: just add the
 Provider and edit the `config/git-hook.php` file to make it fit your needs.
 
 
-Custom configuration can be made within the config/git-hook.php file:
+Custom configuration can be made within the `config/git-hook.php` file:
+
+Get notified by mail. Just add your credentials: 
 ```
-/*
-|--------------------------------------------------------------------------
-| Email recipients
-|--------------------------------------------------------------------------
-|
-| The email address and name that notification emails will be sent to.
-| Leave the array empty to disable emails.
-|
-| [
-|     ['name' => 'Admin', 'address' => 'email@example.com'],
-|     ...
-| ]
-|
-*/
-'email_recipients' => [],
+'email_recipients' => [
+    [
+        ['name' => 'Admin', 'address' => 'email@example.com'],
+        ...
+    ]
+],
+```
  
- 
-/*
-|--------------------------------------------------------------------------
-| Email sender
-|--------------------------------------------------------------------------
-|
-| The email address and name that notification emails will be sent from.
-| This will default to the sender in config(mail.from) if left null.
-|
-*/
+Specify a custom email sender address:
+```
 'email_sender' => ['address' => null, 'name' => null],
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Repository path
-|--------------------------------------------------------------------------
-|
-| This the root path of the Git repository that will be pulled. If this
-| is left empty the script will try to determine the directory itself
-| but looking for the project's .env file it's nearby .git directory.
-|
-| No trailing slash
-|
-*/
+```
+
+Perhaps your repository is somehow specially structured, if that's the case, specify yozr
+repository path below:
+```
 'repo_path' => '',
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Allowed sources
-|--------------------------------------------------------------------------
-|
-| A request will be ignored unless it comes from an IP listed in this
-| array. Leave the array empty to allow all sources.
-|
-| This is useful for a little extra security if you run your own Git
-| repo server.
-|
-*/
+```
+
+If you want to secure the deployment process a bit more, whitelist the repository IPs:
+```
 'allowed_sources' => [],
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Remote name
-|--------------------------------------------------------------------------
-|
-| The name of the remote repository to pull the changes from
-|
-*/
+```
+
+Your remote branch
+```
 'remote' => 'origin',
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Git binary path
-|--------------------------------------------------------------------------
-|
-| The full path to the system git binary. e.g. /usr/bin/git
-|
-| Leave blank to let the system detect using the current PATH variable
-|
-*/
+```
+
+Where is the git binary located? By default /usr/bin/git will be used.
+```
 'git_path' => '',
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Logger file name
-|--------------------------------------------------------------------------
-|
-| The filename of the logfile which will be used to store deployment
-| information.
-|
-| By default it will use: git-hook
-|
-| The log file will be placed within the storage/log/ directory.
-|
-*/
+```
+
+How sould the logfile be named?
+```
 'logfile' => 'git-hook',
- 
- 
-/*
-|--------------------------------------------------------------------------
-| Url parameter
-|--------------------------------------------------------------------------
-|
-| Please specify a url parameter. The router will adapt to it automatically.
-|
-| Example: if you enter 'another-git-hook'
-|          It will be transformed into: https://your-domain.tld/another-git-hook
-|
-*/
+```
+
+Define your remote git service. This is required to identify the payload.
+Currently supported: `github`, `gitbucket`
+```
+'service' => 'github',
+```
+
+How should your deployment url (git hook) look like? You can be as creative as you want ;)
+If you are concerned someone could guess it, use a more cryptic url such as: `JHFUjhd67567JHFGhsd78236784wegfJHFghdgf`
+```
 'url' => 'git-hook'
 ```
+
+## Potential problems:
+
+Please make sure your `www-data` user can actually perform a git pull on the server without 
+having to enter a password:
+so you might want to take a look at ssh-keys or something similar
 
 ## Change log
 
