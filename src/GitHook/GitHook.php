@@ -253,8 +253,7 @@ class GitHook {
 
             /* Convert the git message into a better readable format
              * */
-            $aCommit = $this->aRequest->get('commits');
-            $aCommit->each(function($key, &$commit){
+            $aCommit = $this->aRequest->get('commits')->map(function($commit){
 
                 /* Split message into subject + description
                  *    -Suggested by git: Assumes Git's recommended standard where first line is the main summary
@@ -263,6 +262,8 @@ class GitHook {
                 $commit['human_subject'] = strtok($commit['message'], "\n");
                 $commit['human_description'] = $commit['message'];
                 $commit['human_date'] = with(new \DateTime($commit['timestamp']))->format('d.m.Y H:i');
+
+                return $commit;
             });
             $this->aRequest->put('commits', $aCommit->all());
 

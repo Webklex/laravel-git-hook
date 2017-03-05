@@ -93,7 +93,7 @@ return [
     | Leave blank to let the system detect using the current PATH variable
     |
     */
-    'git_path' => '',
+    'git_path' => '/usr/bin/git',
 
 
     /*
