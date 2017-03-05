@@ -150,7 +150,7 @@ return [
     | If you have any commands that have to be called before a pull event, specify
     | them below.
     |
-    | ['route:clear', ['some:command', ['arg1' => 1]]]
+    | ['down','route:clear', ['some:command', ['arg1' => 1]]]
     |
     */
     'before_pull' => [],
@@ -164,7 +164,7 @@ return [
     | If you have any commands that have to be called after a pull event, specify
     | them below.
     |
-    | ['route:clear', ['some:command', ['arg1' => 1]]]
+    | ['route:clear', ['some:command', ['arg1' => 1]], 'up']
     |
     */
     'after_pull' => []
